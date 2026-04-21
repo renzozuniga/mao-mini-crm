@@ -1,0 +1,182 @@
+════════════════════════════════════════════════════════════
+  MAO Mini CRM — Guía de instalación y despliegue
+════════════════════════════════════════════════════════════
+
+PREREQUISITOS
+─────────────
+  • Node.js 18+     →  https://nodejs.org
+  • Angular CLI 17  →  npm install -g @angular/cli@17
+  • Git             →  https://git-scm.com
+  • Cuenta Supabase →  https://supabase.com  (base de datos gratuita)
+  • Cuenta Render   →  https://render.com    (deploy backend gratuito)
+  • Cuenta Vercel   →  https://vercel.com    (deploy frontend gratuito)
+
+Verificar en Git Bash:
+  node --version    # 18.x o superior
+  ng version        # Angular CLI 17.x
+  git --version
+
+
+════════════════════════════════════════════════════════════
+  PARTE 1 — DESARROLLO LOCAL
+════════════════════════════════════════════════════════════
+
+── 1A. BASE DE DATOS (Supabase) ────────────────────────────
+
+1. Ve a https://supabase.com → New project
+2. Nombre: mao-crm  |  Region: South America (São Paulo)
+3. Guarda la contraseña que eliges
+4. Espera ~2 min a que aprovisione
+
+5. Ve a Project Settings → Database → Connection string → Session pooler
+6. Copia la URL (formato):
+   postgresql://postgres.XXXX:PASSWORD@aws-0-REGION.pooler.supabase.com:5432/postgres
+
+
+── 1B. SERVIDOR (Node.js + Express + Prisma) ───────────────
+
+cd mini-crm/server
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+copy .env.example .env        (Windows)
+cp .env.example .env          (Mac/Linux)
+
+# Editar .env:
+#   DATABASE_URL  = URL de Session pooler de Supabase (paso 1A.6)
+#   JWT_SECRET    = clave aleatoria fuerte
+#     Generar con: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# Generar el cliente de Prisma
+npx prisma generate
+
+# Crear tablas en Supabase
+npx prisma db push
+
+# (Opcional) Ver tablas con GUI
+npx prisma studio
+
+# Seed — carga datos de demostración
+node src/seed.js
+
+# Iniciar servidor en modo desarrollo (puerto 3000)
+npm run dev
+
+  → API corriendo en http://localhost:3000
+  → Probar: GET http://localhost:3000/  debe responder {"status":"ok"}
+
+
+── 1C. CLIENTE (Angular 17) ────────────────────────────────
+
+cd mini-crm/client
+
+# Instalar dependencias
+npm install
+
+# El archivo src/environments/environment.ts ya apunta a localhost:3000
+# No necesitas configurar nada más para desarrollo local
+
+# Iniciar servidor de desarrollo (puerto 4200)
+npm start    ó    ng serve
+
+  → App corriendo en http://localhost:4200
+  → Login con las credenciales del seed:
+      Admin:    admin@maocrm.dev  /  Admin1234!
+      Usuario:  user@maocrm.dev   /  User1234!
+
+
+════════════════════════════════════════════════════════════
+  PARTE 2 — GITHUB
+════════════════════════════════════════════════════════════
+
+1. Ve a github.com/new
+2. Nombre del repo: mao-mini-crm
+3. Visibility: Public (requerido para Render/Vercel free)
+4. NO inicializar con nada
+
+En Git Bash desde mini-crm/:
+  git init
+  git add .
+  git commit -m "feat: Mini CRM Phase 1 — auth + layout"
+  git branch -M main
+  git remote add origin https://github.com/TU_USUARIO/mao-mini-crm.git
+  git push -u origin main
+
+Si pide contraseña con 2FA → usa un Personal Access Token:
+  GitHub → Settings → Developer settings → Tokens (classic)
+  Scope: repo → Generate → pegar en lugar de contraseña
+
+
+════════════════════════════════════════════════════════════
+  PARTE 3 — DEPLOY BACKEND EN RENDER
+════════════════════════════════════════════════════════════
+
+1. render.com → New → Web Service → Connect mao-mini-crm
+2. Configuración:
+     Name:           mao-crm-server
+     Root Directory: server
+     Runtime:        Node
+     Build Command:  npm install && npx prisma generate
+     Start Command:  node src/app.js
+     Instance Type:  Free
+
+3. Environment Variables (agregar una por una):
+     DATABASE_URL   → URL Session pooler de Supabase
+     JWT_SECRET     → clave aleatoria (igual o diferente a la local)
+     CORS_ORIGINS   → https://mao-crm.vercel.app  (URL de Vercel, la sabes después del deploy del cliente)
+     NODE_ENV       → production
+
+4. Create Web Service → esperar build (~3 min)
+5. URL del servidor: https://mao-crm-server.onrender.com
+
+6. Ejecutar seed en producción:
+   Render → tu servicio → Shell:
+   node src/seed.js
+
+
+════════════════════════════════════════════════════════════
+  PARTE 4 — DEPLOY FRONTEND EN VERCEL
+════════════════════════════════════════════════════════════
+
+1. vercel.com → Add New → Project → Import mao-mini-crm
+2. Configuración:
+     Root Directory:    client
+     Framework Preset:  Angular
+     Build Command:     npm run build
+     Output Directory:  dist/mao-crm-client/browser
+
+3. Environment Variables:
+     (No son necesarias — la URL de la API está en environment.prod.ts)
+     Si quieres apuntar a tu Render URL, edita antes de hacer push:
+       src/environments/environment.prod.ts → apiUrl: 'https://mao-crm-server.onrender.com/api'
+
+4. Deploy → URL: https://mao-crm.vercel.app
+
+5. Vuelve a Render → Environment → actualiza CORS_ORIGINS con la URL real de Vercel
+   → Manual Deploy → Deploy latest commit
+
+
+════════════════════════════════════════════════════════════
+  FLUJO DE TRABAJO DIARIO
+════════════════════════════════════════════════════════════
+
+# Levantar todo localmente (dos terminales):
+  Terminal 1:  cd mini-crm/server  →  npm run dev
+  Terminal 2:  cd mini-crm/client  →  npm start
+
+# Push de cambios:
+  git add .
+  git commit -m "feat: descripcion del cambio"
+  git push
+  # Render y Vercel redesplegan automáticamente
+
+
+════════════════════════════════════════════════════════════
+  COSTO TOTAL: $0/mes
+════════════════════════════════════════════════════════════
+  Supabase   Free (500 MB PostgreSQL)
+  Render     Free (web service)
+  Vercel     Free (frontend SPA)
+  GitHub     Free (repo público)

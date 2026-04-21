@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mao-crm-server
+    runtime: node
+    buildCommand: npm install && npx prisma generate
+    startCommand: node src/app.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18.20.3
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false        # Set manually in Render dashboard (Supabase Session Pooler URL)
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_EXPIRY
+        value: 30m
+      - key: JWT_REFRESH_EXPIRY
+        value: 7d
+      - key: CORS_ORIGINS
+        sync: false        # Set to your Vercel URL after frontend deploy

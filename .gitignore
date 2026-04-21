@@ -1,0 +1,30 @@
+# Markdown — kept out of version control
+*.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files (NEVER commit secrets)
+.env
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Angular build output
+dist/
+.angular/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log

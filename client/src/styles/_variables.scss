@@ -1,0 +1,122 @@
+// ── Color tokens ──────────────────────────────────────────────────────────────
+:root {
+  // Backgrounds (raw values)
+  --bg:            #0f1117;
+  --bg-card:       #1a1d27;
+  --bg-card-hover: #1f2335;
+  --sidebar-bg:    #151820;
+
+  // Borders (raw values)
+  --border:        rgba(255, 255, 255, 0.07);
+  --border-focus:  rgba(37, 99, 235, 0.6);
+
+  // Text (raw values)
+  --text-primary:   rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.50);
+  --text-muted:     rgba(255, 255, 255, 0.28);
+
+  // Accent / Brand (raw values)
+  --accent:        #2563eb;
+  --accent-hover:  #1d4ed8;
+  --accent-light:  rgba(37, 99, 235, 0.15);
+  --accent-lighter:rgba(37, 99, 235, 0.08);
+
+  // Semantic (raw values)
+  --success:       #16a34a;
+  --success-light: rgba(22, 163, 74, 0.15);
+  --warning:       #d97706;
+  --warning-light: rgba(217, 119, 6, 0.15);
+  --error:         #dc2626;
+  --error-light:   rgba(220, 38, 38, 0.15);
+
+  // Pipeline stage colors
+  --stage-lead:        #6b7280;
+  --stage-qualified:   #2563eb;
+  --stage-proposal:    #7c3aed;
+  --stage-negotiation: #ea580c;
+  --stage-won:         #16a34a;
+  --stage-lost:        #dc2626;
+
+  // Layout (raw values)
+  --sidebar-width:           240px;
+  --sidebar-width-collapsed: 72px;
+  --header-height:           64px;
+
+  // Spacing (raw values)
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+
+  // Radii (raw values)
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   16px;
+  --r-xl:   20px;
+  --r-full: 9999px;
+
+  // Shadows
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,.6);
+
+  // Transitions (raw values)
+  --t-fast:   0.15s ease;
+  --t-base:   0.20s ease;
+  --t-slow:   0.30s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // ── Semantic aliases (used across all components) ──────────────────────────
+
+  // Colors
+  --color-bg-primary:       var(--bg);
+  --color-bg-secondary:     var(--bg);
+  --color-surface:          var(--bg-card);
+  --color-surface-hover:    var(--bg-card-hover);
+  --color-border:           var(--border);
+  --color-border-focus:     var(--border-focus);
+
+  --color-text-primary:     var(--text-primary);
+  --color-text-secondary:   var(--text-secondary);
+  --color-text-muted:       var(--text-muted);
+
+  --color-primary:          var(--accent);
+  --color-primary-hover:    var(--accent-hover);
+  --color-primary-light:    var(--accent-light);
+
+  --color-success:          var(--success);
+  --color-success-light:    var(--success-light);
+  --color-warning:          var(--warning);
+  --color-warning-light:    var(--warning-light);
+  --color-danger:           var(--error);
+  --color-danger-light:     var(--error-light);
+
+  // Layout
+  --sidebar-collapsed-width: var(--sidebar-width-collapsed);
+
+  // Spacing
+  --space-1:  var(--sp-1);
+  --space-2:  var(--sp-2);
+  --space-3:  var(--sp-3);
+  --space-4:  var(--sp-4);
+  --space-5:  var(--sp-5);
+  --space-6:  var(--sp-6);
+  --space-8:  var(--sp-8);
+  --space-10: var(--sp-10);
+
+  // Radii
+  --radius-sm:   var(--r-sm);
+  --radius-md:   var(--r-md);
+  --radius-lg:   var(--r-lg);
+  --radius-xl:   var(--r-xl);
+  --radius-full: var(--r-full);
+
+  // Transitions
+  --transition-fast: var(--t-fast);
+  --transition-base: var(--t-base);
+  --transition-slow: var(--t-slow);
+}
