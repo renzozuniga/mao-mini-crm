@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const { port, corsOrigins } = require('./config');
-const authRoutes = require('./modules/auth/auth.routes');
+const authRoutes      = require('./modules/auth/auth.routes');
+const dashboardRoutes = require('./modules/dashboard/dashboard.routes');
 const { errorHandler } = require('./middlewares/error.middleware');
 
 const app = express();
@@ -11,8 +12,9 @@ app.use(cors({ origin: corsOrigins, credentials: true }));
 app.use(express.json());
 
 // ── Routes ────────────────────────────────────────────────────────────────────
-app.get('/', (req, res) => res.json({ status: 'ok', version: '1.0.0', docs: '/api/auth' }));
-app.use('/api/auth', authRoutes);
+app.get('/', (req, res) => res.json({ status: 'ok', version: '1.0.0' }));
+app.use('/api/auth',      authRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // ── Error handler (must be last) ──────────────────────────────────────────────
 app.use(errorHandler);
