@@ -57,6 +57,23 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
+  /**
+   * Updates the current user's name and/or email.
+   * Persists the updated profile into the currentUser signal.
+   */
+  updateProfile(dto: { fullName?: string; email?: string }): Observable<UserProfile> {
+    return this.http
+      .patch<UserProfile>(`${environment.apiUrl}/auth/profile`, dto)
+      .pipe(tap(user => this.currentUser.set(user)));
+  }
+
+  /**
+   * Changes the current user's password.
+   */
+  changePassword(dto: { currentPassword: string; newPassword: string }): Observable<{ message: string }> {
+    return this.http.patch<{ message: string }>(`${environment.apiUrl}/auth/password`, dto);
+  }
+
   private handleAuth(res: AuthResponse): void {
     this.tokenService.setTokens(res.access, res.refresh);
     this.currentUser.set(res.user);

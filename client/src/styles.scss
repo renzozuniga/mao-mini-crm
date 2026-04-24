@@ -8,6 +8,12 @@
 // scoped styles don't reach it.  These rules MUST live in the global stylesheet.
 
 .cdk-drag-preview {
+  // CRITICAL: cancel any `transition` inherited from .pl-card.
+  // Without this, CDK's initial `transform: translate3d(x,y,0)` triggers the
+  // card's `transition: transform` and the preview animates from (0,0) to the
+  // pointer — visually appearing at the top-left corner on drag start.
+  transition: none !important;
+
   border-radius: 16px;
   box-shadow: 0 24px 64px rgba(0, 0, 0, .75), 0 0 0 1px rgba(255, 255, 255, .12);
   transform: rotate(1.5deg) scale(1.04);

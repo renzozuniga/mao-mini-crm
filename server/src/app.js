@@ -5,6 +5,8 @@ const authRoutes      = require('./modules/auth/auth.routes');
 const dashboardRoutes = require('./modules/dashboard/dashboard.routes');
 const contactRoutes     = require('./modules/contacts/contacts.routes');
 const opportunityRoutes = require('./modules/opportunities/opportunities.routes');
+const activityRoutes    = require('./modules/activities/activities.routes');
+const reportRoutes      = require('./modules/reports/reports.routes');
 const { errorHandler }  = require('./middlewares/error.middleware');
 
 const app = express();
@@ -19,6 +21,8 @@ app.use('/api/auth',      authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/contacts',      contactRoutes);
 app.use('/api/opportunities', opportunityRoutes);
+app.use('/api/activities',   activityRoutes);
+app.use('/api/reports',      reportRoutes);
 
 // ── Error handler (must be last) ──────────────────────────────────────────────
 app.use(errorHandler);

@@ -193,5 +193,7 @@ export class SidebarComponent {
     { path: '/contacts',   label: 'Contacts',     icon: '👥' },
     { path: '/pipeline',   label: 'Pipeline',     icon: '⬡' },
     { path: '/activities', label: 'Activities',   icon: '⚡' },
+    { path: '/reports',    label: 'Reports',      icon: '📊' },
+    { path: '/settings',   label: 'Settings',     icon: '⚙️' },
   ];
 }

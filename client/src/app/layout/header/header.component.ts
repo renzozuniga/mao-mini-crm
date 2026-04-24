@@ -10,6 +10,8 @@ const ROUTE_TITLES: Record<string, string> = {
   '/contacts':   'Contacts',
   '/pipeline':   'Pipeline',
   '/activities': 'Activities',
+  '/reports':    'Reports',
+  '/settings':   'Settings',
 };
 
 @Component({

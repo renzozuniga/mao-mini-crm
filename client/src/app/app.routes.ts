@@ -58,6 +58,18 @@ export const routes: Routes = [
           import('./pages/activities/activities.component').then(m => m.ActivitiesComponent),
         data: { animation: 'activities' },
       },
+      {
+        path: 'reports',
+        loadComponent: () =>
+          import('./pages/reports/reports.component').then(m => m.ReportsComponent),
+        data: { animation: 'reports' },
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./pages/settings/settings.component').then(m => m.SettingsComponent),
+        data: { animation: 'settings' },
+      },
     ],
   },
   {

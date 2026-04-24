@@ -1,12 +1,15 @@
 import { trigger, transition, style, animate, query } from '@angular/animations';
 
-/** Fade + slide-up animation for page transitions inside the shell. */
+/**
+ * Fade-only animation for page transitions inside the shell.
+ * NOTE: intentionally no `transform` — any lingering transform on an ancestor
+ * element breaks CDK drag-drop's `position:fixed` preview coordinates.
+ */
 export const routeAnimations = trigger('routeAnimations', [
   transition('* <=> *', [
     query(':enter', [
-      style({ opacity: 0, transform: 'translateY(14px)' }),
-      animate('220ms cubic-bezier(0.4, 0, 0.2, 1)',
-        style({ opacity: 1, transform: 'translateY(0)' })),
+      style({ opacity: 0 }),
+      animate('200ms ease', style({ opacity: 1 })),
     ], { optional: true }),
   ]),
 ]);

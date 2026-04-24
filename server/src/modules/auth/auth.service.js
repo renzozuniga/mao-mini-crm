@@ -101,4 +101,40 @@ const getProfile = async (userId) => {
   return user;
 };
 
-module.exports = { register, login, refresh, getProfile };
+/**
+ * Update the authenticated user's full name and/or email.
+ * @param {number} userId
+ * @param {{ fullName?: string, email?: string }} dto
+ */
+const updateProfile = async (userId, dto) => {
+  if (dto.email) {
+    const existing = await prisma.user.findFirst({
+      where: { email: dto.email, NOT: { id: userId } },
+    });
+    if (existing) throw createError(409, 'Email already in use');
+  }
+  return prisma.user.update({
+    where: { id: userId },
+    data:  dto,
+    select: USER_SELECT,
+  });
+};
+
+/**
+ * Change the authenticated user's password after verifying the current one.
+ * @param {number} userId
+ * @param {{ currentPassword: string, newPassword: string }} dto
+ */
+const changePassword = async (userId, { currentPassword, newPassword }) => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw createError(404, 'User not found');
+
+  const valid = await bcrypt.compare(currentPassword, user.passwordHash);
+  if (!valid) throw createError(400, 'Current password is incorrect');
+
+  const passwordHash = await bcrypt.hash(newPassword, 10);
+  await prisma.user.update({ where: { id: userId }, data: { passwordHash } });
+  return { message: 'Password updated successfully' };
+};
+
+module.exports = { register, login, refresh, getProfile, updateProfile, changePassword };

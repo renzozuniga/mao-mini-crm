@@ -189,8 +189,6 @@ const SKELETON_COUNTS: Record<OpportunityStage, number> = {
                   [style.animation-delay]="i * 40 + 'ms'"
                   (click)="openEdit(opp)"
                 >
-                  <div cdkDragHandle class="pl-card__handle">⠿</div>
-
                   <p class="pl-card__title">{{ opp.title }}</p>
 
                   <div class="pl-card__contact">
@@ -434,7 +432,7 @@ const SKELETON_COUNTS: Record<OpportunityStage, number> = {
     .pl-column--skeleton { pointer-events: none; }
     @keyframes colSlideIn {
       from { opacity: 0; transform: translateY(20px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      to   { opacity: 1; transform: none; }
     }
 
     /* ── Column header ─────────────────────────────────────────────────────── */
@@ -514,19 +512,12 @@ const SKELETON_COUNTS: Record<OpportunityStage, number> = {
     .pl-card--skeleton { cursor: default; pointer-events: none; min-height: 100px; }
     @keyframes cardIn {
       from { opacity: 0; transform: translateY(10px) scale(0.96); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      to   { opacity: 1; transform: none; }
     }
-
-    .pl-card__handle {
-      position: absolute; top: var(--space-2); right: var(--space-2);
-      font-size: 1rem; color: var(--color-text-muted); cursor: grab;
-      opacity: 0; transition: opacity var(--transition-fast); line-height: 1; padding: 2px 4px;
-    }
-    .pl-card:hover .pl-card__handle { opacity: .7; }
 
     .pl-card__title {
       font-size: 0.8125rem; font-weight: 700; color: var(--color-text-primary);
-      margin: 0; line-height: 1.4; padding-right: var(--space-5);
+      margin: 0; line-height: 1.4;
     }
     .pl-card__contact { display: flex; align-items: center; gap: var(--space-2); }
     .pl-card__avatar {
